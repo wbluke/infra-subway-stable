@@ -36,7 +36,7 @@ public class LineService {
         return LineResponse.of(persistLine);
     }
 
-    @Cacheable(value = CacheKey.LINE, key = "#root.methodName()")
+    @Cacheable(value = CacheKey.LINE, key = "#root.methodName")
     public List<LineResponse> findLineResponses() {
         List<Line> persistLines = lineRepository.findAll();
         return persistLines.stream()
