@@ -23,13 +23,14 @@ public class StationService {
         this.stationRepository = stationRepository;
     }
 
+    @CacheEvict(value = CacheKey.STATION_RESPONSES, allEntries = true)
     public StationResponse saveStation(StationRequest stationRequest) {
         Station persistStation = stationRepository.save(stationRequest.toStation());
         return StationResponse.of(persistStation);
     }
 
     @Transactional(readOnly = true)
-    @Cacheable(value = CacheKey.STATION, key = "#root.methodName")
+    @Cacheable(value = CacheKey.STATION_RESPONSES, unless = "#result.empty")
     public List<StationResponse> findAllStations() {
         List<Station> stations = stationRepository.findAll();
 
