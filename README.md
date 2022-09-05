@@ -51,13 +51,16 @@ npm run dev
 
 - 개선 후 smoke test
 
+![img.png](images/smoke_after_redis.png)
 
 - 개선 전 load test
 
 ![img.png](images/load_result.png)
 
 - 개선 후 load test
+  - ms 단위라 테스트 할때마다 차이가 있겠지만.. 조금 늘었다.
 
+![img.png](images/load_after_redis.png)
 
 - 개선 전 stress test
 
@@ -65,6 +68,7 @@ npm run dev
 
 - 개선 후 stress test
 
+![img.png](images/stress_after_redis.png)
 
 2. 어떤 부분을 개선해보셨나요? 과정을 설명해주세요
 
