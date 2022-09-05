@@ -84,10 +84,18 @@ npm run dev
 - nginx cache 압축 적용 후
   - 평균 응답속도에서는 개선점이 보이지 않음
   - 중앙값 응답시간이 0.58ms 감소 (10%)
-  - 99% 요청 응답시간 경계값이 8.6ms 감소 (24%)
+  - 90% 요청 응답시간 경계값이 8.6ms 감소 (24%)
   - 95% 요청 응답시간 경계값이 6.64ms 감소 (9%)
 
 ![img.png](images/stress_after_cache.png)
+
+- redis 적용 후
+  - 평균 응답시간이 4.34ms 감소 (26%)
+  - 95% 요청 응답시간 경계값이 10.37ms 감소 (18%)
+  - path searching page에서 간헐적 실패가 나와 올바른 개선 방향인지에 대한 의문
+
+![img.png](images/stress_after_redis.png)
+![img.png](images/stress_after_redis_2.png)
 
 ---
 
