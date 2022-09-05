@@ -29,6 +29,7 @@ public class LineService {
         this.stationService = stationService;
     }
 
+    @CacheEvict(value = CacheKey.LINE, allEntries = true)
     public LineResponse saveLine(LineRequest request) {
         Station upStation = stationService.findById(request.getUpStationId());
         Station downStation = stationService.findById(request.getDownStationId());
@@ -36,7 +37,7 @@ public class LineService {
         return LineResponse.of(persistLine);
     }
 
-    @Cacheable(value = CacheKey.LINE, key = "#root.methodName")
+    @Cacheable(value = CacheKey.LINE, unless = "#result.empty")
     public List<LineResponse> findLineResponses() {
         List<Line> persistLines = lineRepository.findAll();
         return persistLines.stream()
@@ -48,24 +49,22 @@ public class LineService {
         return lineRepository.findAll();
     }
 
-    @Cacheable(value = CacheKey.LINE, key = "#id")
     public Line findLineById(Long id) {
         return lineRepository.findById(id).orElseThrow(RuntimeException::new);
     }
-
 
     public LineResponse findLineResponseById(Long id) {
         Line persistLine = findLineById(id);
         return LineResponse.of(persistLine);
     }
 
-    @CachePut(value = CacheKey.LINE, key = "#id")
+    @CacheEvict(value = CacheKey.LINE, allEntries = true)
     public void updateLine(Long id, LineRequest lineUpdateRequest) {
         Line persistLine = lineRepository.findById(id).orElseThrow(RuntimeException::new);
         persistLine.update(new Line(lineUpdateRequest.getName(), lineUpdateRequest.getColor()));
     }
 
-    @CacheEvict(value = CacheKey.LINE, key = "#id")
+    @CacheEvict(value = CacheKey.LINE, allEntries = true)
     public void deleteLineById(Long id) {
         lineRepository.deleteById(id);
     }

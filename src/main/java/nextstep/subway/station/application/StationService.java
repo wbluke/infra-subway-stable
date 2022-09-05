@@ -23,13 +23,14 @@ public class StationService {
         this.stationRepository = stationRepository;
     }
 
+    @CacheEvict(value = CacheKey.STATION, allEntries = true)
     public StationResponse saveStation(StationRequest stationRequest) {
         Station persistStation = stationRepository.save(stationRequest.toStation());
         return StationResponse.of(persistStation);
     }
 
     @Transactional(readOnly = true)
-    @Cacheable(value = CacheKey.STATION, key = "#root.methodName")
+    @Cacheable(value = CacheKey.STATION, unless = "#result.empty")
     public List<StationResponse> findAllStations() {
         List<Station> stations = stationRepository.findAll();
 
@@ -38,12 +39,11 @@ public class StationService {
             .collect(Collectors.toList());
     }
 
-    @CacheEvict(value = CacheKey.STATION, key = "#id")
+    @CacheEvict(value = CacheKey.STATION, allEntries = true)
     public void deleteStationById(Long id) {
         stationRepository.deleteById(id);
     }
 
-    @Cacheable(value = CacheKey.STATION, key = "#id")
     public Station findById(Long id) {
         return stationRepository.findById(id).orElseThrow(RuntimeException::new);
     }
