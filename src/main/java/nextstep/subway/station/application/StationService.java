@@ -29,7 +29,7 @@ public class StationService {
     }
 
     @Transactional(readOnly = true)
-    @Cacheable(value = CacheKey.STATION, key = "#root.methodName()")
+    @Cacheable(value = CacheKey.STATION, key = "#root.methodName")
     public List<StationResponse> findAllStations() {
         List<Station> stations = stationRepository.findAll();
 
