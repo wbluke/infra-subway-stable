@@ -1,13 +1,18 @@
 package nextstep.subway.station.dto;
 
 import nextstep.subway.station.domain.Station;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
 public class StationResponse {
     private Long id;
     private String name;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdDate;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime modifiedDate;
 
     public static StationResponse of(Station station) {
