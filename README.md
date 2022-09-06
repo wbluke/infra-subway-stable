@@ -45,7 +45,61 @@ npm run dev
 ### 1단계 - 화면 응답 개선하기
 1. 성능 개선 결과를 공유해주세요 (Smoke, Load, Stress 테스트 결과)
 
+- 개선 전 smoke test
+
+![img.png](images/smoke_result.png)
+
+- 개선 후 smoke test
+
+![img.png](images/smoke_after_redis.png)
+
+- 개선 전 load test
+
+![img.png](images/load_result.png)
+
+- 개선 후 load test
+  - ms 단위라 테스트 할때마다 차이가 있겠지만.. 조금 늘었다.
+
+![img.png](images/load_after_redis.png)
+
+- 개선 전 stress test
+
+![img.png](images/stress_after_gzip.png)
+
+- 개선 후 stress test
+
+![img.png](images/stress_after_redis.png)
+
 2. 어떤 부분을 개선해보셨나요? 과정을 설명해주세요
+
+> - 최대 부하를 기준으로 개선을 확인해야 한다고 판단하여 stress 테스트로 아래 과정들을 진행했습니다.
+> - 지난 미션에서는 90/180/240/360 VUser로 진행했으나 이번에는 240/360/450 VUser로 단계를 높여서 진행했습니다.
+
+- 개선 전 테스트
+
+![img.png](images/stress_before.png)
+
+- nginx gzip 압축 적용 후
+  - 평균 응답시간이 3.54ms 감소 (18%)
+  - 95% 요청 응답시간 경계값이 14.28ms 감소 (19%)
+
+![img.png](images/stress_after_gzip.png)
+
+- nginx cache 압축 적용 후
+  - 평균 응답속도에서는 개선점이 보이지 않음
+  - 중앙값 응답시간이 0.58ms 감소 (10%)
+  - 90% 요청 응답시간 경계값이 8.6ms 감소 (24%)
+  - 95% 요청 응답시간 경계값이 6.64ms 감소 (9%)
+
+![img.png](images/stress_after_cache.png)
+
+- redis 적용 후
+  - 평균 응답시간이 4.34ms 감소 (26%)
+  - 95% 요청 응답시간 경계값이 10.37ms 감소 (18%)
+  - path searching page에서 간헐적 실패가 나와 올바른 개선 방향인지에 대한 의문
+
+![img.png](images/stress_after_redis.png)
+![img.png](images/stress_after_redis_2.png)
 
 ---
 
