@@ -107,13 +107,41 @@ npm run dev
 
 1. Launch Template 링크를 공유해주세요.
 
+```md
+https://ap-northeast-2.console.aws.amazon.com/ec2/v2/home?region=ap-northeast-2#LaunchTemplateDetails:launchTemplateId=lt-0d8e6357e247d2373
+```
+
 2. cpu 부하 실행 후 EC2 추가생성 결과를 공유해주세요. (Cloudwatch 캡쳐)
 
 ```sh
 $ stress -c 2
 ```
 
+![img.png](images/asg_after_cpu_stress.png)
+
+- 원하는 용량 2, 최소 용량 2, 최대 용량 4로 설정 후 1대의 인스턴스에 cpu 부하를 주니 순차적으로 3대, 4대로 증설
+
 3. 성능 개선 결과를 공유해주세요 (Smoke, Load, Stress 테스트 결과)
+
+- smoke test
+  - 단일 요청은 더 느려졌다.
+
+![img.png](images/smoke_after_scale_out.png)
+
+- load test
+  - 약간의 개선 보임 (p90, p95)
+
+![img.png](images/load_after_scale_out.png)
+
+- stress test
+  - 상당한 개선
+    - 평균 응답시간 11.69ms 감소 (71%)
+    - 중앙값 응답시간 2.9ms 감소 (48%)
+    - 90% 요청 응답시간 경계값이 26.42ms 감소 (76%)
+    - 95% 요청 응답시간 경계값이 45.82ms 감소 (80%)
+
+![img.png](images/stress_after_scale_out.png)
+
 
 ---
 ### [추가] 1단계 - 쿠버네티스로 구성하기
